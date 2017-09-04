@@ -1,0 +1,36 @@
+{
+    "name": "grottopress/wordpress-breadcrumbs",
+    "description": "A library to render breadcrumbs for a WordPress page.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "GrottoPress.com",
+            "email": "info@grottopress.com",
+            "homepage": "https://www.grottopress.com"
+        },
+        {
+          "name": "N Atta Kusi Adusei",
+          "homepage": "https://twitter.com/akadusei",
+          "role": "Developer"
+        }
+    ],
+    "keywords": [ "wordpress", "breadcrumbs" ],
+    "support": {
+        "issues": "https://github.com/GrottoPress/wordpress-breadcrumbs/issues",
+        "wiki": "https://github.com/GrottoPress/wordpress-breadcrumbs/wiki",
+        "source": "https://github.com/GrottoPress/wordpress-breadcrumbs/"
+    },
+    "require": {
+        "php": ">=7.0",
+        "grottopress/wordpress-page": "^0.2"
+    },
+    "require-dev": {
+        "lucatume/wp-browser": "^1.21"
+    },
+    "autoload": {
+        "psr-4": { "GrottoPress\\WordPress\\Breadcrumbs\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "GrottoPress\\WordPress\\Breadcrumbs\\": "tests/wpunit/" }
+    }
+}
