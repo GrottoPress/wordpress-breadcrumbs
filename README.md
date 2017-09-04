@@ -21,9 +21,8 @@ Instantiate and use thus:
     $breadcrumbs = new Breadcrumbs( new Page(), [
         'home_label' => \esc_html__( 'Home' ),
         'delimiter' => '/',
-        'type' => 'text',
         'before' => \esc_html__( 'Path: ' ),
     ] );
 
-    // Render breadcrumbs
+    // Render
     echo $breadcrumbs->render();
