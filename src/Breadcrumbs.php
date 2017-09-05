@@ -476,45 +476,35 @@ class Breadcrumbs {
 	/**
 	 * Get all hierarchical taxonomies.
 	 *
-	 * @param array Post types.
+	 * @param string $post_type Post type.
 	 *
 	 * @since 0.1.0
 	 * @access protected
 	 *
 	 * @return array Hierarchical taxonomies and their respective terms.
 	 */
-	protected function get_hierarchical_taxonomies( array $post_types = [] ): array {
-		if ( ! $post_types ) {
-			$post_types = \get_post_types( [ 'public' => true ], 'names' );
-		}
-		
+	protected function get_hierarchical_taxonomies( string $post_type ): array {
 		$taxonomies = [];
 
-		if ( ! $post_types ) {
+		$taxes = \get_object_taxonomies( $post_type, 'objects' );
+		
+		if ( ! $taxes ) {
 			return $taxonomies;
 		}
-		
-		foreach ( $post_types as $post_type ) {
-			$taxes = \get_object_taxonomies( $post_type, 'objects' );
-			
-			if ( ! $taxes ) {
+
+		foreach ( $taxes as $tax_slug => $tax_object ) {
+			if ( ! \is_taxonomy_hierarchical( $tax_slug ) ) {
 				continue;
 			}
-
-			foreach ( $taxes as $tax_slug => $tax_object ) {
-				if ( ! \is_taxonomy_hierarchical( $tax_slug ) ) {
-					continue;
-				}
-				
-				$terms = \get_terms( $tax_object->name, [ 'hide_empty' => false ] );
-				
-				if ( ! $terms || \is_wp_error( $terms ) ) {
-					continue;
-				}
-				
-				foreach ( $terms as $term_object ) {
-					$taxonomies[ $tax_slug ][] = \absint( $term_object->term_id );
-				}
+			
+			$terms = \get_terms( $tax_object->name, [ 'hide_empty' => false ] );
+			
+			if ( ! $terms || \is_wp_error( $terms ) ) {
+				continue;
+			}
+			
+			foreach ( $terms as $term_object ) {
+				$taxonomies[ $tax_slug ][] = \absint( $term_object->term_id );
 			}
 		}
 		
@@ -613,10 +603,10 @@ class Breadcrumbs {
 	 * @access protected
 	 */
 	protected function sanitize_attributes() {
-		$this->home_label = empty( $args['home_label'] ) ? \esc_html__( 'Home', 'jentil' ) : \sanitize_text_field( $args['home_label'] );
-	    $this->delimiter = empty( $args['delimiter'] ) ? $this->delimiter() : \esc_attr( $args['delimiter'] );
-	    $this->after = empty( $args['after'] ) ? '' : \sanitize_text_field( $args['after'] );
-	    $this->before = empty( $args['before'] ) ? '' : \sanitize_text_field( $args['before'] );
+		$this->home_label = $this->home_label ? \sanitize_text_field( $this->home_label ) : \esc_html__( 'Home', 'jentil' );
+	    $this->delimiter = $this->delimiter ? \esc_attr( $this->delimiter ) : $this->default_delimiter();
+	    $this->after = \sanitize_text_field( $this->after );
+	    $this->before = \sanitize_text_field( $this->before );
 	    
 	    $this->links = [];
 	}
