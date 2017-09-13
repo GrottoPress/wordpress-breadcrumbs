@@ -196,10 +196,10 @@ class Breadcrumbs
             $this->addHomeLink();
         }
 
-        $this_template = $this->page->type();
+        $this_page = $this->page->type();
         
-        foreach ($this_template as $template) {
-            $add_links = s('add_'.$template.'_links')->camelize();
+        foreach ($this_page as $page) {
+            $add_links = (string) s('add_'.$page.'_links')->camelize();
             
             if (\is_callable([$this, $add_links])) {
                 $this->$add_links();
@@ -215,7 +215,7 @@ class Breadcrumbs
         /**
          * @filter grotto_breadcrumbs_links
          *
-         * @param array $this->links Breadcrub links for current template.
+         * @param array $this->links Breadcrub links for current page.
          *
          * @since 0.1.0
          */
