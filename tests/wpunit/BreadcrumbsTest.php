@@ -1,15 +1,16 @@
 <?php
 namespace GrottoPress\WordPress\Breadcrumbs;
 
-class BreadcrumbsTest extends \Codeception\TestCase\WPTestCase
-{
+use Codeception\TestCase\WPTestCase;
+use GrottoPress\WordPress\Page\Page;
 
+class BreadcrumbsTest extends WPTestCase
+{
     public function setUp()
     {
-        // before
         parent::setUp();
 
-        // your set up methods here
+        // your setup here
     }
 
     public function tearDown()
@@ -21,8 +22,12 @@ class BreadcrumbsTest extends \Codeception\TestCase\WPTestCase
     }
 
     // tests
-    public function testMe()
+    public function testHomepageBreadcrumbs()
     {
-    }
+        $this->go_to(\home_url('/'));
 
+        $breadcrumbs = new Breadcrumbs(new Page(), ['before' => 'Path: ']);
+        
+        //
+    }
 }
