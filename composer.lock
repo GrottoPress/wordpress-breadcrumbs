@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "675d68e8577e98d599f79e7a3c196954",
-    "content-hash": "5eedeaa8c5b0f77e1eedf97192da0b30",
+    "hash": "f06fdfd07a8793299e138061cc68ca9f",
+    "content-hash": "ad6180109e34c4c8e9368379c4f03e33",
     "packages": [
         {
             "name": "danielstjules/stringy",
@@ -65,16 +65,16 @@
         },
         {
             "name": "grottopress/wordpress-page",
-            "version": "0.2.1",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrottoPress/wordpress-page.git",
-                "reference": "c048dec2e184aabb6f58cb4abf8ad206f5233a16"
+                "reference": "7029a018ca49f3c136db762b21fdf33d6bfe34b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrottoPress/wordpress-page/zipball/c048dec2e184aabb6f58cb4abf8ad206f5233a16",
-                "reference": "c048dec2e184aabb6f58cb4abf8ad206f5233a16",
+                "url": "https://api.github.com/repos/GrottoPress/wordpress-page/zipball/7029a018ca49f3c136db762b21fdf33d6bfe34b8",
+                "reference": "7029a018ca49f3c136db762b21fdf33d6bfe34b8",
                 "shasum": ""
             },
             "require": {
@@ -85,9 +85,9 @@
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "src/"
-                ]
+                "psr-4": {
+                    "GrottoPress\\WordPress\\Page\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -109,7 +109,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-09-04 22:52:36"
+            "time": "2017-09-13 22:03:04"
         },
         {
             "name": "symfony/polyfill-mbstring",

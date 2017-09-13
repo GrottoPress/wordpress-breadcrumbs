@@ -22,7 +22,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "grottopress/wordpress-page": "^0.2",
+        "grottopress/wordpress-page": "^0.3",
         "danielstjules/stringy": "^3.1"
     },
     "require-dev": {
