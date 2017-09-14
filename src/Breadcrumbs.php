@@ -17,7 +17,6 @@ declare (strict_types = 1);
 namespace GrottoPress\WordPress\Breadcrumbs;
 
 use GrottoPress\WordPress\Page\Page;
-use function Stringy\create as s;
 
 /**
  * Breadcrumbs
@@ -199,7 +198,7 @@ class Breadcrumbs
         $this_page = $this->page->type();
         
         foreach ($this_page as $page) {
-            $add_links = (string) s('add_'.$page.'_links')->camelize();
+            $add_links = 'add_'.$page.'_links';
             
             if (\is_callable([$this, $add_links])) {
                 $this->$add_links();
@@ -231,7 +230,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addFrontPageLinks()
+    protected function add_front_page_links()
     {
         $this->links[] = $this->currentLink($this->home_label, \home_url('/'));
     }
@@ -242,7 +241,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addHomeLinks()
+    protected function add_home_links()
     {
         $home = \get_option('page_for_posts');
         $title = \get_the_title($home);
@@ -257,7 +256,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addCategoryLinks()
+    protected function add_category_links()
     {
         $cat_id = \absint(\get_query_var('cat'));
         $cat = \get_category($cat_id);
@@ -293,7 +292,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addDayLinks()
+    protected function add_day_links()
     {
         $year = \get_query_var('year');
         $month = \get_query_var('monthnum');
@@ -321,7 +320,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addMonthLinks()
+    protected function add_month_links()
     {
         $year = \get_query_var('year');
         $month = \get_query_var('monthnum');
@@ -345,7 +344,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addYearLinks()
+    protected function add_year_links()
     {
         $year = \get_query_var('year');
         
@@ -358,7 +357,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addSearchLinks()
+    protected function add_search_links()
     {
         $this->links[] = $this->currentLink(
             \get_search_query(),
@@ -372,7 +371,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addTagLinks()
+    protected function add_tag_links()
     {
         $tag_id = \get_query_var('tag_id');
         $tag_label = \single_tag_title('', false);
@@ -386,7 +385,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addAuthorLinks()
+    protected function add_author_links()
     {
         $author_id = \get_query_var('author');
         $author_name = \get_the_author_meta('display_name', $author_id);
@@ -403,7 +402,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function add404links()
+    protected function add_404_links()
     {
         $this->links[] = $this->currentLink(
             \esc_html__('Error 404', 'jentil')
@@ -416,7 +415,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addPostTypeArchiveLinks()
+    protected function add_post_type_archive_links()
     {
         $post_type = \get_query_var('post_type');
         $post_type_link = \get_post_type_archive_link($post_type);
@@ -434,7 +433,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addTaxLinks()
+    protected function add_tax_links()
     {
         $tax_slug = \get_query_var('taxonomy');
         $term_slug = \get_query_var('term');
@@ -476,7 +475,7 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function addSingularLinks()
+    protected function add_singular_links()
     {
         global $post;
 

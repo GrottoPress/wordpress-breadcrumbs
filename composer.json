@@ -22,8 +22,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "grottopress/wordpress-page": "^0.3",
-        "danielstjules/stringy": "^3.1"
+        "grottopress/wordpress-page": "^0.3"
     },
     "require-dev": {
         "lucatume/wp-browser": "^1.21"
