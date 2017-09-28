@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "31851669b6bd1d94a30ebca8198cc0fa",
-    "content-hash": "f3e56b8cf69e0285e20d2fccb6615edd",
+    "hash": "4431f59d47afbb727498ca1f394fa4b1",
+    "content-hash": "6490109d344e8ea435630825f10803ae",
     "packages": [
         {
             "name": "grottopress/wordpress-page",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrottoPress/wordpress-page.git",
-                "reference": "7029a018ca49f3c136db762b21fdf33d6bfe34b8"
+                "reference": "8f47b6cd61c2ec2bfa2017e825b39597a903a60a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrottoPress/wordpress-page/zipball/7029a018ca49f3c136db762b21fdf33d6bfe34b8",
-                "reference": "7029a018ca49f3c136db762b21fdf33d6bfe34b8",
+                "url": "https://api.github.com/repos/GrottoPress/wordpress-page/zipball/8f47b6cd61c2ec2bfa2017e825b39597a903a60a",
+                "reference": "8f47b6cd61c2ec2bfa2017e825b39597a903a60a",
                 "shasum": ""
             },
             "require": {
@@ -53,22 +53,22 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-09-13 22:03:04"
+            "time": "2017-09-28 19:42:08"
         }
     ],
     "packages-dev": [
         {
             "name": "antecedent/patchwork",
-            "version": "2.1.4",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antecedent/patchwork.git",
-                "reference": "8b5fb587be912ee0cdc4c3ce145ef237ac9807f8"
+                "reference": "ee5e6d669b9e379cff7b42c005c55e7b8c33b9d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antecedent/patchwork/zipball/8b5fb587be912ee0cdc4c3ce145ef237ac9807f8",
-                "reference": "8b5fb587be912ee0cdc4c3ce145ef237ac9807f8",
+                "url": "https://api.github.com/repos/antecedent/patchwork/zipball/ee5e6d669b9e379cff7b42c005c55e7b8c33b9d8",
+                "reference": "ee5e6d669b9e379cff7b42c005c55e7b8c33b9d8",
                 "shasum": ""
             },
             "require": {
@@ -96,7 +96,7 @@
                 "runkit",
                 "testing"
             ],
-            "time": "2017-09-02 05:34:56"
+            "time": "2017-09-11 13:43:30"
         },
         {
             "name": "bacon/bacon-string-utils",
@@ -1211,16 +1211,16 @@
         },
         {
             "name": "lucatume/wp-browser",
-            "version": "1.21.16",
+            "version": "1.21.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucatume/wp-browser.git",
-                "reference": "43392d2cc85b280f16473b0bbb786ff990b85314"
+                "reference": "ac22f2362db4436cc7ef5139fbbe62ebb243f152"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/43392d2cc85b280f16473b0bbb786ff990b85314",
-                "reference": "43392d2cc85b280f16473b0bbb786ff990b85314",
+                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/ac22f2362db4436cc7ef5139fbbe62ebb243f152",
+                "reference": "ac22f2362db4436cc7ef5139fbbe62ebb243f152",
                 "shasum": ""
             },
             "require": {
@@ -1269,7 +1269,7 @@
                 "codeception",
                 "wordpress"
             ],
-            "time": "2017-08-12 12:20:02"
+            "time": "2017-09-26 14:14:13"
         },
         {
             "name": "lucatume/wp-browser-commons",
