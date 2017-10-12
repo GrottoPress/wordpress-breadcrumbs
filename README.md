@@ -18,11 +18,11 @@ Instantiate and use thus:
     use GrottoPress\WordPress\Page\Page;
 
     // Instantiate
-    $breadcrumbs = new Breadcrumbs( new Page(), [
-        'home_label' => \esc_html__( 'Home' ),
+    $breadcrumbs = new Breadcrumbs(new Page(), [
+        'home_label' => \esc_html__('Home'),
         'delimiter' => '/',
-        'before' => \esc_html__( 'Path: ' ),
-    ] );
+        'before' => \esc_html__('Path: '),
+    ]);
 
     // Render
     echo $breadcrumbs->render();
