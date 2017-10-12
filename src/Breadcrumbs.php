@@ -245,7 +245,7 @@ class Breadcrumbs
     {
         $home = \get_option('page_for_posts');
         $title = \get_the_title($home);
-        $url = \get_permalink($home);
+        $url = (string)\get_permalink($home);
         
         $this->links[] = $this->currentLink($title, $url);
     }
@@ -374,7 +374,7 @@ class Breadcrumbs
     protected function add_tag_links()
     {
         $tag_id = \get_query_var('tag_id');
-        $tag_label = \single_tag_title('', false);
+        $tag_label = (string)\single_tag_title('', false);
         
         $this->links[] = $this->currentLink($tag_label, \get_tag_link($tag_id));
     }
@@ -423,7 +423,7 @@ class Breadcrumbs
         
         $this->links[] = $this->currentLink(
             $post_type_label,
-            \get_post_type_archive_link($post_type)
+            (string)\get_post_type_archive_link($post_type)
         );
     }
     
@@ -465,7 +465,7 @@ class Breadcrumbs
         
         $this->links[] = $this->currentLink(
             \single_term_title('', false),
-            \get_term_link($term_id, $tax_slug)
+            (string)\get_term_link($term_id, $tax_slug)
         );
     }
     
@@ -567,7 +567,7 @@ class Breadcrumbs
         
         $this->links[] = $this->currentLink(
             \get_the_title($post->ID),
-            \get_permalink($post->ID)
+            (string)\get_permalink($post->ID)
         );
     }
     
