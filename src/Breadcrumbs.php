@@ -245,7 +245,7 @@ class Breadcrumbs
     {
         $home = \get_option('page_for_posts');
         $title = \get_the_title($home);
-        $url = (string)\get_permalink($home);
+        $url = (\get_permalink($home) ?: '');
         
         $this->links[] = $this->currentLink($title, $url);
     }
@@ -374,7 +374,7 @@ class Breadcrumbs
     protected function add_tag_links()
     {
         $tag_id = \get_query_var('tag_id');
-        $tag_label = (string)\single_tag_title('', false);
+        $tag_label = (\single_tag_title('', false) ?: '');
         
         $this->links[] = $this->currentLink($tag_label, \get_tag_link($tag_id));
     }
@@ -418,13 +418,10 @@ class Breadcrumbs
     protected function add_post_type_archive_links()
     {
         $post_type = \get_query_var('post_type');
-        $post_type_link = \get_post_type_archive_link($post_type);
+        $post_type_link = (\get_post_type_archive_link($post_type) ?: '');
         $post_type_label = \post_type_archive_title('', false);
         
-        $this->links[] = $this->currentLink(
-            $post_type_label,
-            (string)\get_post_type_archive_link($post_type)
-        );
+        $this->links[] = $this->currentLink($post_type_label, $post_type_link);
     }
     
     /**
@@ -465,7 +462,7 @@ class Breadcrumbs
         
         $this->links[] = $this->currentLink(
             \single_term_title('', false),
-            (string)\get_term_link($term_id, $tax_slug)
+            (get_term_link($term_id, $tax_slug) ?: '')
         );
     }
     
@@ -554,7 +551,7 @@ class Breadcrumbs
                 $parent = \get_post($parent_id);
                 $single_links[] = $this->makeLink(
                     \get_the_title($parent->ID),
-                    \get_permalink($parent->ID)
+                    (\get_permalink($parent->ID) ?: '')
                 );
                 $parent_id = $parent->post_parent;
             }
@@ -567,7 +564,7 @@ class Breadcrumbs
         
         $this->links[] = $this->currentLink(
             \get_the_title($post->ID),
-            (string)\get_permalink($post->ID)
+            (\get_permalink($post->ID) ?: '')
         );
     }
     
