@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Fixed argument type error when passing certain WordPress functions into `currentLink()` method.
 ### Changed
-- Changed default delimiter to forward slash (`/`) for LTR, and back slash (`\`) for RTL.
+- Decoupled `collectLinks()` method from `render()` method. Users are required to call `collectLinks()` explicitly before `render()`
 
 ## 0.2.0 - 2017-09-28
 ### Changed

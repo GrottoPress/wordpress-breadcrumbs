@@ -708,7 +708,7 @@ class Breadcrumbs
      */
     protected function defaultDelimiter()
     {
-        return (\is_rtl() ? '\\' : '/');
+        return (\is_rtl() ? '/' : '\\');
     }
 
     /**
