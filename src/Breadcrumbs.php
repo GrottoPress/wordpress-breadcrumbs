@@ -202,7 +202,6 @@ class Breadcrumbs
             
             if (\is_callable([$this, $add_links])) {
                 $this->$add_links();
-
                 break;
             }
         }
@@ -218,9 +217,10 @@ class Breadcrumbs
          *
          * @since 0.1.0
          */
-        $this->links = (array) \apply_filters(
+        $this->links = (array)\apply_filters(
             'grotto_breadcrumbs_links',
-            $this->links
+            $this->links,
+            $this_page
         );
     }
 
@@ -243,11 +243,15 @@ class Breadcrumbs
      */
     protected function add_home_links()
     {
-        $home = \get_option('page_for_posts');
-        $title = \get_the_title($home);
-        $url = (\get_permalink($home) ?: '');
-        
-        $this->links[] = $this->currentLink($title, $url);
+        if ($this->page->is('front_page')) {
+            $this->add_front_page_links();
+        } else {
+            $home = \get_option('page_for_posts');
+            $title = \get_the_title($home);
+            $url = (\get_permalink($home) ?: '');
+            
+            $this->links[] = $this->currentLink($title, $url);
+        }
     }
     
     /**
@@ -292,63 +296,30 @@ class Breadcrumbs
      * @since 0.1.0
      * @access protected
      */
-    protected function add_day_links()
+    protected function add_date_links()
     {
         $year = \get_query_var('year');
         $month = \get_query_var('monthnum');
         $day = \get_query_var('day');
-
-        $timestamp = \strtotime($year.'-'.$month.'-'.$day);
         
         $this->links[] = $this->makeLink(
-            \date('Y', $timestamp),
-            \get_year_link($year)
-        );
-        $this->links[] = $this->makeLink(
-            \date('F Y', $timestamp),
-            \get_month_link($year, $month)
-        );
-        $this->links[] = $this->currentLink(
-            \date(\get_option('date_format'), $timestamp),
-            \get_day_link($year, $month, $day)
-        );
-    }
-    
-    /**
-     * Month archive breadcrumb links
-     * \
-     * @since 0.1.0
-     * @access protected
-     */
-    protected function add_month_links()
-    {
-        $year = \get_query_var('year');
-        $month = \get_query_var('monthnum');
-
-        $timestamp = \strtotime($year.'-'.$month);
-        
-        $this->links[] = $this->makeLink(
-            \date('Y', $timestamp),
+            \date('Y', \strtotime("$year")),
             \get_year_link($year)
         );
 
-        $this->links[] = $this->currentLink(
-            \date('F Y', $timestamp),
-            \get_month_link($year, $month)
-        );
-    }
-    
-    /**
-     * Year archive breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
-     */
-    protected function add_year_links()
-    {
-        $year = \get_query_var('year');
+        if ($this->page->is('month') || $this->page->is('day')) {
+            $this->links[] = $this->makeLink(
+                \date('F', \strtotime($year.'-'.$month)),
+                \get_month_link($year, $month)
+            );
+        }
         
-        $this->links[] = $this->currentLink($year, \get_year_link($year));
+        if ($this->page->is('day')) {
+            $this->links[] = $this->currentLink(
+                \date('d', \strtotime($year.'-'.$month.'-'.$day)),
+                \get_day_link($year, $month, $day)
+            );
+        }
     }
     
     /**
@@ -360,7 +331,7 @@ class Breadcrumbs
     protected function add_search_links()
     {
         $this->links[] = $this->currentLink(
-            \get_search_query(),
+            '&ldquo;'.\get_search_query().'&rdquo;',
             \get_search_link(\get_search_query())
         );
     }
@@ -405,7 +376,7 @@ class Breadcrumbs
     protected function add_404_links()
     {
         $this->links[] = $this->currentLink(
-            \esc_html__('Error 404', 'jentil')
+            \esc_html__('Error 404')
         );
     }
     
@@ -449,7 +420,10 @@ class Breadcrumbs
                 );
                 $tax_links[] = $this->makeLink(
                     $term_parent->name,
-                    \get_term_link(\absint($term_parent->term_id))
+                    $this->getTermLink(
+                        \absint($term_parent->term_id),
+                        $term->taxonomy
+                    )
                 );
                 $term_parent_id = \absint($term_parent->parent);
             }
@@ -462,7 +436,7 @@ class Breadcrumbs
         
         $this->links[] = $this->currentLink(
             \single_term_title('', false),
-            (get_term_link($term_id, $tax_slug) ?: '')
+            $this->getTermLink($term_id, $tax_slug)
         );
     }
     
@@ -508,7 +482,10 @@ class Breadcrumbs
                     $term = \get_term_by('id', $term_id, $taxonomy_selected);
                     $single_links[] = $this->makeLink(
                         $term->name,
-                        \get_term_link(\absint($term->term_id), $term->taxonomy)
+                        $this->getTermLink(
+                            \absint($term->term_id),
+                            $term->taxonomy
+                        )
                     );
                     $term_id = \absint($term->parent);
                 }
@@ -710,7 +687,9 @@ class Breadcrumbs
      */
     protected function sanitizeAttributes()
     {
-        $this->home_label = $this->home_label ? \sanitize_text_field($this->home_label) : \esc_html__('Home', 'jentil');
+        $this->home_label = $this->home_label
+            ? \sanitize_text_field($this->home_label)
+            : \esc_html__('Home');
         $this->delimiter = $this->delimiter
             ? \esc_attr($this->delimiter) : $this->defaultDelimiter();
         $this->after = \sanitize_text_field($this->after);
@@ -730,5 +709,30 @@ class Breadcrumbs
     protected function defaultDelimiter()
     {
         return (\is_rtl() ? '\\' : '/');
+    }
+
+    /**
+     * Get term link.
+     *
+     * We are defining this to ensure WordPress' `get_term_link()`
+     * function returns a string.
+     *
+     * @param integer $id Term ID.
+     * @param integer $tax Term taxonomy.
+     *
+     * @since 0.1.0
+     * @access protected
+     *
+     * @return string Default delimiter.
+     */
+    protected function getTermLink(int $id, string $tax = '')
+    {
+        $str = \get_term_link($id, $tax);
+        
+        if (\is_wp_error($str)) {
+            return '';
+        }
+        
+        return $str;
     }
 }
