@@ -298,25 +298,24 @@ class Breadcrumbs
      */
     protected function add_date_links()
     {
-        $year = \get_query_var('year');
-        $month = \get_query_var('monthnum');
-        $day = \get_query_var('day');
+        $year = \get_query_var('year', (int)\date('Y'));
+        $month = \get_query_var('monthnum', 1);
+        $day = \get_query_var('day', 1);
+
+        $timestamp = \strtotime("{$year}-{$month}-{$day}");
         
-        $this->links[] = $this->makeLink(
-            \date('Y', \strtotime("$year")),
-            \get_year_link($year)
-        );
+        $this->links[] = $this->makeLink("{$year}", \get_year_link($year));
 
         if ($this->page->is('month') || $this->page->is('day')) {
             $this->links[] = $this->makeLink(
-                \date('F', \strtotime($year.'-'.$month)),
+                \date('F', $timestamp),
                 \get_month_link($year, $month)
             );
         }
         
         if ($this->page->is('day')) {
             $this->links[] = $this->currentLink(
-                \date('d', \strtotime($year.'-'.$month.'-'.$day)),
+                \date('d', $timestamp),
                 \get_day_link($year, $month, $day)
             );
         }

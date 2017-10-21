@@ -75,6 +75,8 @@ class BreadcrumbsTest extends WPTestCase
         \wp_insert_term('best', 'category');
         \wp_insert_term('test', 'post_tag');
 
+        // \update_option('permalink_structure', '/%postname%/');
+
         $this->post_ids = $this->factory->post->create_many(12, [
             'post_type' => 'post',
             'post_status' => 'publish',
@@ -88,7 +90,6 @@ class BreadcrumbsTest extends WPTestCase
         $this->tutorial_ids = $this->factory->post->create_many(12, [
             'post_type' => 'tutorial',
             'post_status' => 'publish',
-            // 'post_date' => '2007-06-05',
         ]);
 
         $this->attachment_ids = $this->factory->post->create_many(12, [
@@ -282,19 +283,49 @@ class BreadcrumbsTest extends WPTestCase
         );
     }
 
-    // public function testDayArchiveBreadcrumbs()
-    // {
-    //     $this->go_to(\get_day_link('2007', '06', '05'));
-    //     $links = $this->getLinksForPage();
+    /**
+     * @todo Debug: is_date() returns false
+     */
+    public function testDayArchiveBreadcrumbs()
+    {
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+        
+        $post_id = $this->tutorial_ids[4];
+        
+        \wp_update_post([
+            'ID' => $post_id,
+            'post_date' => '2007-06-05'
+        ]);
 
-    //     // $this->assertSame(' ', \get_query_var('day'));
+        $y = (int)\get_the_date('Y', $post_id);
+        $m = (int)\get_the_date('m', $post_id);
+        $d = (int)\get_the_date('d', $post_id);
+        
+        $this->go_to(\add_query_arg([
+            'year' => $y,
+            'monthnum' => $m,
+            'day' => $d,
+        ], \home_url('/')));
+        // $this->go_to(\get_day_link($y, $m, $d));
+        $links = $this->getLinksForPage();
 
-    //     $this->assertCount(4, $links);
-    //     $this->checkLink($links[0], $this->breadcrumbs->getHomeLabel());
-    //     $this->checkLink($links[1], (string)\get_query_var('year'));
-    //     $this->checkLink($links[2], (string)\get_query_var('monthnum'));
-    //     $this->checkLink($links[3], (string)\get_query_var('day'), false);
-    // }
+        $year = \get_query_var('year');
+        $month = \get_query_var('monthnum');
+        $day = \get_query_var('day');
+
+        $timestamp = \strtotime("{$year}-{$month}-{$day}");
+
+        // $this->assertSame('', \get_day_link($y, $m, $d));
+        // $this->assertTrue(\is_date());
+
+        $this->assertCount(4, $links);
+        $this->checkLink($links[0], $this->breadcrumbs->getHomeLabel());
+        $this->checkLink($links[1], "$y");
+        $this->checkLink($links[2], \date('F', $timestamp));
+        $this->checkLink($links[3], \date('d', $timestamp), false);
+    }
 
     /**
      * Get breadcrumbs links for page
