@@ -303,8 +303,7 @@ class BreadcrumbsTest extends WPTestCase
      */
     private function getLinksForPage(): array
     {
-        $breadcrumbs = $this->breadcrumbs->render();
-        return $this->breadcrumbs->getLinks();
+        return $this->breadcrumbs->collectLinks()->getLinks();
     }
 
     /**

@@ -112,8 +112,6 @@ class Breadcrumbs
      */
     public function render(): string
     {
-        $this->addLinks();
-        
         $trail = '<nav class="breadcrumbs" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">';
         
         if (\is_rtl()) {
@@ -187,9 +185,9 @@ class Breadcrumbs
      * Add breadcrumb links
      *
      * @since 0.1.0
-     * @access protected
+     * @access public
      */
-    protected function addLinks()
+    public function collectLinks(): Breadcrumbs
     {
         if (!$this->page->is('front_page')) {
             $this->addHomeLink();
@@ -222,6 +220,8 @@ class Breadcrumbs
             $this->links,
             $this_page
         );
+
+        return $this;
     }
 
     /**

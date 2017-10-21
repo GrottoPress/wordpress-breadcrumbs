@@ -24,5 +24,5 @@ Instantiate and use thus:
         'before' => \esc_html__('Path: '),
     ]);
 
-    // Render
-    echo $breadcrumbs->render();
+    // Add breadcrumb links for page, and render
+    $breadcrumbs->collectLinks()->render();
