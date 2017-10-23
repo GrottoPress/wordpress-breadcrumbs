@@ -9,9 +9,9 @@
             "homepage": "https://www.grottopress.com"
         },
         {
-          "name": "N Atta Kusi Adusei",
-          "homepage": "https://twitter.com/akadusei",
-          "role": "Developer"
+            "name": "N Atta Kusi Adusei",
+            "homepage": "https://twitter.com/akadusei",
+            "role": "Developer"
         }
     ],
     "keywords": [ "wordpress", "breadcrumbs" ],
