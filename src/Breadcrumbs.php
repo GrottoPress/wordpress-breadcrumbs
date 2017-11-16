@@ -494,14 +494,14 @@ class Breadcrumbs
                     \array_reverse($single_links)
                 );
             } else /*if (!$post->post_parent)*/ { // Add post type archive link
-                if ('post' != $post->post_type
+                if ('post' !== $post->post_type
                     || ($page_for_posts = \get_option('page_for_posts'))
                     // NB: 'post' archive is the same as frontpage unless page_for_posts is set
                 ) {
                     $post_type_object = \get_post_type_object($post->post_type);
 
                     $label = (
-                        'post' == $post->post_type && $page_for_posts
+                        'post' === $post->post_type && $page_for_posts
                         ? \get_the_title($page_for_posts)
                         : $post_type_object->labels->name
                     );
