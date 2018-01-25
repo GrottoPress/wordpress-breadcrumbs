@@ -27,6 +27,11 @@
     "require-dev": {
         "lucatume/wp-browser": "^1.21"
     },
+    "scripts": {
+        "test": [
+            "codecept run wpunit"
+        ]
+    },
     "autoload": {
         "psr-4": { "GrottoPress\\WordPress\\Breadcrumbs\\": "src/" }
     },
