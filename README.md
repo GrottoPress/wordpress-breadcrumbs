@@ -12,17 +12,19 @@ Install via composer:
 
 Instantiate and use thus:
 
-    <?php
+```php
+<?php
 
-    use GrottoPress\WordPress\Breadcrumbs\Breadcrumbs;
-    use GrottoPress\WordPress\Page\Page;
+use GrottoPress\WordPress\Breadcrumbs\Breadcrumbs;
+use GrottoPress\WordPress\Page\Page;
 
-    // Instantiate
-    $breadcrumbs = new Breadcrumbs(new Page(), [
-        'home_label' => \esc_html__('Home'),
-        'delimiter' => '/',
-        'before' => \esc_html__('Path: '),
-    ]);
+// Instantiate
+$breadcrumbs = new Breadcrumbs(new Page(), [
+    'home_label' => \esc_html__('Home'),
+    'delimiter' => '/',
+    'before' => \esc_html__('Path: '),
+]);
 
-    // Add breadcrumb links for page, and render
-    $breadcrumbs->collectLinks()->render();
+// Add breadcrumb links for page, and render
+$breadcrumbs->collectLinks()->render();
+```
