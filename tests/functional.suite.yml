@@ -5,25 +5,25 @@
 
 actor: FunctionalTester
 modules:
-    enabled:
-        - WPDb
-        - WordPress
-        - Asserts
-        - \Helper\Functional
-    config:
-        WPDb:
-            dsn: 'mysql:host=localhost;dbname=wordpress_test'
-            user: 'username'
-            password: 'password'
-            dump: 'tests/_data/dump.sql'
-            populate: true
-            cleanup: true
-            url: 'http://wp.localhost'
-            urlReplacement: true
-            tablePrefix: 'wptests_'
-        WordPress:
-            depends: WPDb
-            wpRootFolder: '/var/www/svn/wordpress-dev/trunk/src'
-            adminUsername: 'username'
-            adminPassword: 'password'
-            adminPath: '/wp-admin'
+  enabled:
+    - WPDb
+    - WordPress
+    - Asserts
+    - \Helper\Functional
+  config:
+    WPDb:
+      dsn: 'mysql:host=localhost;dbname=wordpress_test'
+      user: 'username'
+      password: 'password'
+      dump: 'tests/_data/dump.sql'
+      populate: true
+      cleanup: true
+      url: 'http://wp.localhost'
+      urlReplacement: true
+      tablePrefix: 'wptests_'
+    WordPress:
+      depends: WPDb
+      wpRootFolder: '/var/www/svn/wordpress-dev/trunk/src'
+      adminUsername: 'username'
+      adminPassword: 'password'
+      adminPath: '/wp-admin'
