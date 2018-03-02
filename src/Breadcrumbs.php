@@ -35,7 +35,7 @@ class Breadcrumbs
     /**
      * @var Page
      */
-    protected $page;
+    private $page;
 
     public function __construct(Page $page, array $args = [])
     {
@@ -503,7 +503,7 @@ class Breadcrumbs
         return $link;
     }
 
-    protected function setAttributes(array $args)
+    private function setAttributes(array $args)
     {
         if (!($vars = \get_object_vars($this))) {
             return;
@@ -517,7 +517,7 @@ class Breadcrumbs
         }
     }
 
-    protected function sanitizeAttributes()
+    private function sanitizeAttributes()
     {
         $this->home_label = $this->home_label
             ? \sanitize_text_field($this->home_label)
@@ -530,7 +530,7 @@ class Breadcrumbs
         $this->links = [];
     }
 
-    protected function defaultDelimiter(): string
+    private function defaultDelimiter(): string
     {
         return (\is_rtl() ? '/' : '\\');
     }
