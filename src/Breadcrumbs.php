@@ -46,6 +46,8 @@ class Breadcrumbs
 
         $this->setAttributes($args);
         $this->sanitizeAttributes();
+
+        $this->collectLinks();
     }
 
     protected function getLinks()
@@ -114,7 +116,7 @@ class Breadcrumbs
         return $trail;
     }
 
-    public function collectLinks(): Breadcrumbs
+    protected function collectLinks()
     {
         if (!$this->page->is('front_page')) {
             $this->addHomeLink();
@@ -145,8 +147,6 @@ class Breadcrumbs
             $this->links,
             $this_page
         );
-
-        return $this;
     }
 
     /**
