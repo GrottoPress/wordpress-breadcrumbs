@@ -1,6 +1,6 @@
 {
     "name": "grottopress/wordpress-breadcrumbs",
-    "description": "A library to render breadcrumbs for a WordPress page.",
+    "description": "Build and display breadcrumbs for WordPress pages",
     "license": "MIT",
     "authors": [
         {
