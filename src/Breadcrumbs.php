@@ -4,9 +4,12 @@ declare (strict_types = 1);
 namespace GrottoPress\WordPress\Breadcrumbs;
 
 use GrottoPress\WordPress\Page\Page;
+use GrottoPress\Getter\GetterTrait;
 
 class Breadcrumbs
 {
+    use GetterTrait;
+
     /**
      * @var string
      */
@@ -43,6 +46,11 @@ class Breadcrumbs
 
         $this->setAttributes($args);
         $this->sanitizeAttributes();
+    }
+
+    protected function getLinks()
+    {
+        return $this->links;
     }
 
     public function render(): string
@@ -130,9 +138,7 @@ class Breadcrumbs
         /**
          * @filter grotto_breadcrumbs_links
          *
-         * @param array $this->links Breadcrub links for current page.
-         *
-         * @since 0.1.0
+         * @var array $this->links Breadcrub links for current page.
          */
         $this->links = (array)\apply_filters(
             'grotto_breadcrumbs_links',
