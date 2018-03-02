@@ -28,8 +28,14 @@
         "lucatume/wp-browser": "^1.21"
     },
     "scripts": {
+        "post-install-cmd": [
+            "chmod +x ./bin/*"
+        ],
         "test": [
-            "codecept run wpunit"
+            "./vendor/bin/codecept run unit"
+        ],
+        "release": [
+            "./bin/release"
         ]
     },
     "autoload": {
