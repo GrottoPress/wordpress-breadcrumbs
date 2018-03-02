@@ -1,99 +1,42 @@
 <?php
-
-/**
- * Breadcrumbs
- *
- * Renders breadcrumbs trail for a given page.
- *
- * @package GrottoPress\WordPress\Breadcrumbs
- * @since 0.1.0
- *
- * @author GrottoPress <info@grottopress.com>
- * @author N Atta Kusi Adusei
- */
-
 declare (strict_types = 1);
 
 namespace GrottoPress\WordPress\Breadcrumbs;
 
 use GrottoPress\WordPress\Page\Page;
 
-/**
- * Breadcrumbs
- *
- * @since 0.1.0
- */
 class Breadcrumbs
 {
     /**
-     * Home label
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @var string $home_label Label for the home link.
+     * @var string
      */
     protected $home_label;
-    
+
     /**
-     * Delimiter
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @var string $delimiter Links delimiter.
+     * @var string
      */
     protected $delimiter;
-    
+
     /**
-     * Before
-     *
-     * @since 0.1.0
-     * @access protected
-     *
      * @var string $before Text to prepend to breadcrumbs.
      */
     protected $before;
-    
+
     /**
-     * After
-     *
-     * @since 0.1.0
-     * @access   protected
-     *
      * @var string $after Text to append to breadcrumbs.
      */
     protected $after;
-    
+
     /**
-     * Breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @var array $links The breadcrumb links.
+     * @var array
      */
     protected $links;
 
     /**
-     * Page
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @var Page $page Page.
+     * @var Page
      */
     protected $page;
-    
-    /**
-     * Constructor
-     *
-     * @param GrottoPress\WordPress\Page\Page $page Page.
-     * @param array $args Breadcrumb args supplied as associative array
-     *
-     * @since 0.1.0
-     * @access public
-     */
+
     public function __construct(Page $page, array $args = [])
     {
         $this->page = $page;
@@ -101,92 +44,68 @@ class Breadcrumbs
         $this->setAttributes($args);
         $this->sanitizeAttributes();
     }
-    
-    /**
-     * The breadcrumbs trail
-     *
-     * @since 0.1.0
-     * @access public
-     *
-     * @return string The breadcrumbs trail.
-     */
+
     public function render(): string
     {
         $trail = '<nav class="breadcrumbs" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">';
-        
+
         if (\is_rtl()) {
             $trail .= $this->renderRTL();
         } else {
             $trail .= $this->renderLTR();
         }
-        
+
         $trail .= '</nav>';
-        
+
         return $trail;
     }
-    
+
     /**
-     * The breadcrumbs trail - RTL
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @return string The breadcrumbs trail for right-to-left languages.
+     * The breadcrumbs trail for right-to-left languages.
      */
     protected function renderRTL(): string
     {
         $trail = '';
-        
+
         if ($this->after) {
             $trail .= '<span class="after">'.$this->after.'</span> ';
         }
-        
+
         $trail .= \join(
             ' <span class="sep delimiter">'.$this->delimiter.'</span> ',
             \array_reverse($this->links)
         );
-        
+
         if ($this->before) {
             $trail .= ' <span class="before">'.$this->before.'</span>';
         }
-        
+
         return $trail;
     }
-    
+
     /**
-     * The breadcrumbs trail - LTR
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @return string The breadcrumbs trail for left-to-right languages.
+     * The breadcrumbs trail for left-to-right languages.
      */
     protected function renderLTR(): string
     {
         $trail = '';
-        
+
         if ($this->before) {
             $trail .= '<span class="before">'.$this->before.'</span> ';
         }
-        
+
         $trail .= \join(
             ' <span class="sep delimiter">'.$this->delimiter.'</span> ',
             $this->links
         );
-        
+
         if ($this->after) {
             $trail .= ' <span class="after">'.$this->after.'</span>';
         }
-        
+
         return $trail;
     }
-    
-    /**
-     * Add breadcrumb links
-     *
-     * @since 0.1.0
-     * @access public
-     */
+
     public function collectLinks(): Breadcrumbs
     {
         if (!$this->page->is('front_page')) {
@@ -194,16 +113,16 @@ class Breadcrumbs
         }
 
         $this_page = $this->page->type();
-        
+
         foreach ($this_page as $page) {
             $add_links = 'add_'.$page.'_links';
-            
+
             if (\is_callable([$this, $add_links])) {
                 $this->$add_links();
                 break;
             }
         }
-        
+
         if ($this->page->is('paged') && !$this->page->is('404')) {
             $this->addPageNumberLink();
         }
@@ -225,21 +144,15 @@ class Breadcrumbs
     }
 
     /**
-     * Front page breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'front_page'
      */
     protected function add_front_page_links()
     {
         $this->links[] = $this->currentLink($this->home_label, \home_url('/'));
     }
-    
+
     /**
-     * Home breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'home'
      */
     protected function add_home_links()
     {
@@ -249,25 +162,22 @@ class Breadcrumbs
             $home = \get_option('page_for_posts');
             $title = \get_the_title($home);
             $url = (\get_permalink($home) ?: '');
-            
+
             $this->links[] = $this->currentLink($title, $url);
         }
     }
-    
+
     /**
-     * Category archive breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'category'
      */
     protected function add_category_links()
     {
         $cat_id = \absint(\get_query_var('cat'));
         $cat = \get_category($cat_id);
         $cat_parent_id = \absint($cat->parent);
-        
+
         $cat_links = [];
-        
+
         if ($cat_parent_id) {
             while ($cat_parent_id) {
                 $cat_parent = \get_category($cat_parent_id);
@@ -277,24 +187,21 @@ class Breadcrumbs
                 );
                 $cat_parent_id = \absint($cat_parent->parent);
             }
-            
+
             $this->links = \array_merge(
                 $this->links,
                 \array_reverse($cat_links)
             );
         }
-        
+
         $this->links[] = $this->currentLink(
             \single_cat_title('', false),
             \get_category_link($cat_id)
         );
     }
-    
+
     /**
-     * Day archive breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'date'
      */
     protected function add_date_links()
     {
@@ -303,7 +210,7 @@ class Breadcrumbs
         $day = \get_query_var('day', 1);
 
         $timestamp = \strtotime("{$year}-{$month}-{$day}");
-        
+
         $this->links[] = $this->makeLink("{$year}", \get_year_link($year));
 
         if ($this->page->is('month') || $this->page->is('day')) {
@@ -312,7 +219,7 @@ class Breadcrumbs
                 \get_month_link($year, $month)
             );
         }
-        
+
         if ($this->page->is('day')) {
             $this->links[] = $this->currentLink(
                 \date('d', $timestamp),
@@ -320,12 +227,9 @@ class Breadcrumbs
             );
         }
     }
-    
+
     /**
-     * Search archive breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'search'
      */
     protected function add_search_links()
     {
@@ -334,43 +238,34 @@ class Breadcrumbs
             \get_search_link(\get_search_query())
         );
     }
-    
+
     /**
-     * Tag archive breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'tag'
      */
     protected function add_tag_links()
     {
         $tag_id = \get_query_var('tag_id');
         $tag_label = (\single_tag_title('', false) ?: '');
-        
+
         $this->links[] = $this->currentLink($tag_label, \get_tag_link($tag_id));
     }
-    
+
     /**
-     * Author archive breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'author'
      */
     protected function add_author_links()
     {
         $author_id = \get_query_var('author');
         $author_name = \get_the_author_meta('display_name', $author_id);
-        
+
         $this->links[] = $this->currentLink(
             $author_name,
             \get_author_posts_url($author_id)
         );
     }
-    
+
     /**
-     * 404 breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === '404'
      */
     protected function add_404_links()
     {
@@ -378,27 +273,21 @@ class Breadcrumbs
             \esc_html__('Error 404')
         );
     }
-    
+
     /**
-     * Post type archive breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'post_type_archive'
      */
     protected function add_post_type_archive_links()
     {
         $post_type = \get_query_var('post_type');
         $post_type_link = (\get_post_type_archive_link($post_type) ?: '');
         $post_type_label = \post_type_archive_title('', false);
-        
+
         $this->links[] = $this->currentLink($post_type_label, $post_type_link);
     }
-    
+
     /**
-     * Taxonomy breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'tax'
      */
     protected function add_tax_links()
     {
@@ -407,9 +296,9 @@ class Breadcrumbs
         $term = \get_term_by('slug', $term_slug, $tax_slug);
         $term_id = \absint($term->term_id);
         $term_parent_id = \absint($term->parent);
-        
+
         $tax_links = [];
-        
+
         if ($term_parent_id) {
             while ($term_parent_id) {
                 $term_parent = \get_term_by(
@@ -426,24 +315,21 @@ class Breadcrumbs
                 );
                 $term_parent_id = \absint($term_parent->parent);
             }
-            
+
             $this->links = \array_merge(
                 $this->links,
                 \array_reverse($tax_links)
             );
         }
-        
+
         $this->links[] = $this->currentLink(
             \single_term_title('', false),
             $this->getTermLink($term_id, $tax_slug)
         );
     }
-    
+
     /**
-     * Single page/post/attachment breadcrumb links
-     *
-     * @since 0.1.0
-     * @access protected
+     * Called if $page === 'singular'
      */
     protected function add_singular_links()
     {
@@ -453,10 +339,10 @@ class Breadcrumbs
 
         if (!\is_post_type_hierarchical(\get_post_type($use_post))) {
             $taxonomies = $this->getTaxonomies($use_post->post_type);
-            
+
             $taxonomy_selected = '';
             $term_selected = 0;
-            
+
             if ($taxonomies) {
                 foreach ($taxonomies as $taxonomy => $terms) {
                     $taxonomy_selected = $taxonomy;
@@ -464,7 +350,7 @@ class Breadcrumbs
                         $use_post->ID,
                         $taxonomy_selected
                     );
-                    
+
                     /** Get the first term of the first taxonomy */
                     if ($post_terms && !\is_wp_error($post_terms)) {
                         foreach ($post_terms as $term_object) {
@@ -473,10 +359,10 @@ class Breadcrumbs
                         }
                     }
                 }
-                
+
                 $term_id = $term_selected;
                 $single_links = [];
-                
+
                 while ($term_id) {
                     $term = \get_term_by('id', $term_id, $taxonomy_selected);
                     $single_links[] = $this->makeLink(
@@ -488,7 +374,7 @@ class Breadcrumbs
                     );
                     $term_id = \absint($term->parent);
                 }
-                
+
                 $this->links = \array_merge(
                     $this->links,
                     \array_reverse($single_links)
@@ -517,12 +403,12 @@ class Breadcrumbs
                 }
             }
         }
-        
+
         if ($post->post_parent) {
             $parent_id = $post->post_parent;
-            
+
             $single_links = [];
-            
+
             while ($parent_id) {
                 $parent = \get_post($parent_id);
                 $single_links[] = $this->makeLink(
@@ -531,35 +417,28 @@ class Breadcrumbs
                 );
                 $parent_id = $parent->post_parent;
             }
-            
+
             $this->links = \array_merge(
                 $this->links,
                 \array_reverse($single_links)
             );
         }
-        
+
         $this->links[] = $this->currentLink(
             \get_the_title($post->ID),
             (\get_permalink($post->ID) ?: '')
         );
     }
-    
+
     /**
-     * Get all hierarchical taxonomies.
-     *
-     * @param string $post_type Post type.
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @return array Hierarchical taxonomies and their respective terms.
+     * Get all hierarchical taxonomies
      */
     protected function getTaxonomies(string $post_type): array
     {
         $taxonomies = [];
 
         $taxes = \get_object_taxonomies($post_type, 'objects');
-        
+
         if (!$taxes) {
             return $taxonomies;
         }
@@ -568,38 +447,26 @@ class Breadcrumbs
             if (!\is_taxonomy_hierarchical($tax_slug)) {
                 continue;
             }
-            
+
             $terms = \get_terms($tax_object->name, ['hide_empty' => false]);
-            
+
             if (!$terms || \is_wp_error($terms)) {
                 continue;
             }
-            
+
             foreach ($terms as $term_object) {
                 $taxonomies[$tax_slug][] = \absint($term_object->term_id);
             }
         }
-        
+
         return $taxonomies;
     }
-    
-    /**
-     * Home link
-     *
-     * @since 0.1.0
-     * @access protected
-     */
+
     protected function addHomeLink()
     {
         $this->links[] = $this->makeLink($this->home_label, \home_url('/'));
     }
-    
-    /**
-     * Page number link
-     *
-     * @since 0.1.0
-     * @access protected
-     */
+
     protected function addPageNumberLink()
     {
         $this->links[] = $this->makeLink(\sprintf(
@@ -607,18 +474,7 @@ class Breadcrumbs
             $this->page->number()
         ));
     }
-    
-    /**
-     * Get current page link
-     *
-     * @param string $url URL
-     * @param string $title Link title.
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @return string Current page link.
-     */
+
     protected function currentLink(
         string $title = '',
         string $url = ''
@@ -629,41 +485,24 @@ class Breadcrumbs
 
         return $this->makeLink($title);
     }
-    
-    /**
-     * Make a link
-     *
-     * @param string $url URL
-     * @param string $title Link title.
-     *
-     * @since 0.1.0
-     * @access protected
-     */
+
     protected function makeLink(string $title, string $url = ''): string
     {
         $link = '';
-        
+
         if ($url) {
             $link .= '<a href="'.\esc_url($url).'" itemprop="url">';
         }
-        
+
         $link .= '<span itemprop="itemListElement">'.\sanitize_text_field($title).'</span>';
-        
+
         if ($url) {
             $link .= '</a>';
         }
-        
+
         return $link;
     }
 
-    /**
-     * Set attributes
-     *
-     * @param array $arg Arguments supplied to this object.
-     *
-     * @since 0.1.0
-     * @access protected
-     */
     protected function setAttributes(array $args)
     {
         if (!($vars = \get_object_vars($this))) {
@@ -678,12 +517,6 @@ class Breadcrumbs
         }
     }
 
-    /**
-     * Sanitize attributes
-     *
-     * @since 0.1.0
-     * @access protected
-     */
     protected function sanitizeAttributes()
     {
         $this->home_label = $this->home_label
@@ -693,45 +526,23 @@ class Breadcrumbs
             ? \esc_attr($this->delimiter) : $this->defaultDelimiter();
         $this->after = \sanitize_text_field($this->after);
         $this->before = \sanitize_text_field($this->before);
-        
+
         $this->links = [];
     }
-    
-    /**
-     * Default Delimiter
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @return string Default delimiter.
-     */
-    protected function defaultDelimiter()
+
+    protected function defaultDelimiter(): string
     {
         return (\is_rtl() ? '/' : '\\');
     }
 
-    /**
-     * Get term link.
-     *
-     * We are defining this to ensure WordPress' `get_term_link()`
-     * function returns a string.
-     *
-     * @param integer $id Term ID.
-     * @param integer $tax Term taxonomy.
-     *
-     * @since 0.1.0
-     * @access protected
-     *
-     * @return string Default delimiter.
-     */
-    protected function getTermLink(int $id, string $tax = '')
+    protected function getTermLink(int $id, string $tax = ''): string
     {
         $str = \get_term_link($id, $tax);
-        
+
         if (\is_wp_error($str)) {
             return '';
         }
-        
+
         return $str;
     }
 }
