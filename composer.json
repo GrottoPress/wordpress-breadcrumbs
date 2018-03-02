@@ -14,7 +14,10 @@
             "role": "Developer"
         }
     ],
-    "keywords": [ "wordpress", "breadcrumbs" ],
+    "keywords": [
+        "wordpress",
+        "breadcrumbs"
+    ],
     "support": {
         "issues": "https://github.com/GrottoPress/wordpress-breadcrumbs/issues",
         "wiki": "https://github.com/GrottoPress/wordpress-breadcrumbs/wiki",
@@ -39,9 +42,13 @@
         ]
     },
     "autoload": {
-        "psr-4": { "GrottoPress\\WordPress\\Breadcrumbs\\": "src/" }
+        "psr-4": {
+            "GrottoPress\\WordPress\\Breadcrumbs\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "GrottoPress\\WordPress\\Breadcrumbs\\": "tests/wpunit/" }
+        "psr-4": {
+            "GrottoPress\\WordPress\\Breadcrumbs\\": "tests/wpunit/"
+        }
     }
 }
