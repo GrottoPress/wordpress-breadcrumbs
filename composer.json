@@ -1,6 +1,6 @@
 {
     "name": "grottopress/wordpress-breadcrumbs",
-    "description": "A library to render breadcrumbs for a WordPress page.",
+    "description": "Build and display breadcrumbs for WordPress pages",
     "license": "MIT",
     "authors": [
         {
@@ -14,7 +14,10 @@
             "role": "Developer"
         }
     ],
-    "keywords": [ "wordpress", "breadcrumbs" ],
+    "keywords": [
+        "wordpress",
+        "breadcrumbs"
+    ],
     "support": {
         "issues": "https://github.com/GrottoPress/wordpress-breadcrumbs/issues",
         "wiki": "https://github.com/GrottoPress/wordpress-breadcrumbs/wiki",
@@ -22,15 +25,32 @@
     },
     "require": {
         "php": ">=7.0",
-        "grottopress/wordpress-page": "^0.4"
+        "grottopress/wordpress-page": "^0.5",
+        "grottopress/getter": "^0.3"
     },
     "require-dev": {
-        "lucatume/wp-browser": "^1.21"
+        "codeception/codeception": "^2.4",
+        "lucatume/function-mocker": "^1.3"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "chmod +x ./bin/*"
+        ],
+        "test": [
+            "./vendor/bin/codecept run unit"
+        ],
+        "release": [
+            "./bin/release"
+        ]
     },
     "autoload": {
-        "psr-4": { "GrottoPress\\WordPress\\Breadcrumbs\\": "src/" }
+        "psr-4": {
+            "GrottoPress\\WordPress\\Breadcrumbs\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "GrottoPress\\WordPress\\Breadcrumbs\\": "tests/wpunit/" }
+        "psr-4": {
+            "GrottoPress\\WordPress\\Breadcrumbs\\": "tests/unit/src/"
+        }
     }
 }

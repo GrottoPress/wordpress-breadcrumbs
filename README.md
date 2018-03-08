@@ -1,28 +1,30 @@
 # WordPress Breadcrumbs
 
-## Description
-
-This is a library to render breadcrumbs for a WordPress page.
+Build and display breadcrumbs for WordPress pages
 
 ## Usage
 
 Install via composer:
 
-`composer require grottopress/wordpress-breadcrumbs`
+```bash
+composer require grottopress/wordpress-breadcrumbs
+```
 
 Instantiate and use thus:
 
-    <?php
+```php
+<?php
 
-    use GrottoPress\WordPress\Breadcrumbs\Breadcrumbs;
-    use GrottoPress\WordPress\Page\Page;
+use GrottoPress\WordPress\Breadcrumbs\Breadcrumbs;
+use GrottoPress\WordPress\Page\Page;
 
-    // Instantiate
-    $breadcrumbs = new Breadcrumbs(new Page(), [
-        'home_label' => \esc_html__('Home'),
-        'delimiter' => '/',
-        'before' => \esc_html__('Path: '),
-    ]);
+// Instantiate
+$breadcrumbs = new Breadcrumbs(new Page(), [
+    'home_label' => \esc_html__('Home'),
+    'delimiter' => '/',
+    'before' => \esc_html__('Path: '),
+]);
 
-    // Add breadcrumb links for page, and render
-    $breadcrumbs->collectLinks()->render();
+// Render
+$breadcrumbs->render();
+```
