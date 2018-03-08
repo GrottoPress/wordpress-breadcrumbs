@@ -25,7 +25,8 @@
     },
     "require": {
         "php": ">=7.0",
-        "grottopress/wordpress-page": "^0.5"
+        "grottopress/wordpress-page": "^0.5",
+        "grottopress/getter": "^0.3"
     },
     "require-dev": {
         "codeception/codeception": "^2.4",
@@ -49,7 +50,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "GrottoPress\\WordPress\\Breadcrumbs\\": "tests/wpunit/"
+            "GrottoPress\\WordPress\\Breadcrumbs\\": "tests/unit/src/"
         }
     }
 }

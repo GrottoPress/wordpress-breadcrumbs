@@ -5,6 +5,7 @@ namespace GrottoPress\WordPress\Breadcrumbs;
 
 use GrottoPress\WordPress\Page\Page;
 use GrottoPress\Getter\GetterTrait;
+use WP_Post;
 
 class Breadcrumbs
 {
@@ -201,7 +202,7 @@ class Breadcrumbs
         }
 
         $this->links[] = $this->currentLink(
-            \single_cat_title('', false),
+            $cat->name,
             \get_category_link($cat_id)
         );
     }
@@ -217,20 +218,29 @@ class Breadcrumbs
 
         $timestamp = \strtotime("{$year}-{$month}-{$day}");
 
-        $this->links[] = $this->makeLink("{$year}", \get_year_link($year));
+        $year_args = ["{$year}", \get_year_link($year)];
+        $month_args = [
+            \date('M Y', $timestamp),
+            \get_month_link($year, $month)
+        ];
+        $day_args = [
+            \date('d M Y', $timestamp),
+            \get_day_link($year, $month, $day)
+        ];
 
-        if ($this->page->is('month') || $this->page->is('day')) {
-            $this->links[] = $this->makeLink(
-                \date('F', $timestamp),
-                \get_month_link($year, $month)
-            );
+        if ($this->page->is('year')) {
+            $this->links[] = $this->currentLink(...$year_args);
+        } else {
+            $this->links[] = $this->makeLink(...$year_args);
+        }
+
+        if ($this->page->is('month')) {
+            $this->links[] = $this->currentLink(...$month_args);
         }
 
         if ($this->page->is('day')) {
-            $this->links[] = $this->currentLink(
-                \date('d', $timestamp),
-                \get_day_link($year, $month, $day)
-            );
+            $this->links[] = $this->makeLink(...$month_args);
+            $this->links[] = $this->currentLink(...$day_args);
         }
     }
 
@@ -329,7 +339,7 @@ class Breadcrumbs
         }
 
         $this->links[] = $this->currentLink(
-            \single_term_title('', false),
+            $term->name,
             $this->getTermLink($term_id, $tax_slug)
         );
     }
@@ -339,78 +349,7 @@ class Breadcrumbs
      */
     protected function add_singular_links()
     {
-        global $post;
-
-        $use_post = $post->post_parent ? \get_post($post->post_parent) : $post;
-
-        if (!\is_post_type_hierarchical(\get_post_type($use_post))) {
-            $taxonomies = $this->getTaxonomies($use_post->post_type);
-
-            $taxonomy_selected = '';
-            $term_selected = 0;
-
-            if ($taxonomies) {
-                foreach ($taxonomies as $taxonomy => $terms) {
-                    $taxonomy_selected = $taxonomy;
-                    $post_terms = \wp_get_post_terms(
-                        $use_post->ID,
-                        $taxonomy_selected
-                    );
-
-                    /** Get the first term of the first taxonomy */
-                    if ($post_terms && !\is_wp_error($post_terms)) {
-                        foreach ($post_terms as $term_object) {
-                            $term_selected = \absint($term_object->term_id);
-                            break 2;
-                        }
-                    }
-                }
-
-                $term_id = $term_selected;
-                $single_links = [];
-
-                while ($term_id) {
-                    $term = \get_term_by('id', $term_id, $taxonomy_selected);
-                    $single_links[] = $this->makeLink(
-                        $term->name,
-                        $this->getTermLink(
-                            \absint($term->term_id),
-                            $term->taxonomy
-                        )
-                    );
-                    $term_id = \absint($term->parent);
-                }
-
-                $this->links = \array_merge(
-                    $this->links,
-                    \array_reverse($single_links)
-                );
-            } else /*if (!$post->post_parent)*/ { // Add post type archive link
-                if ('post' !== $post->post_type
-                    || ($page_for_posts = \get_option('page_for_posts'))
-                    // NB: 'post' archive is the same as frontpage unless page_for_posts is set
-                ) {
-                    $post_type_object = \get_post_type_object($post->post_type);
-
-                    $label = (
-                        'post' === $post->post_type && $page_for_posts
-                        ? \get_the_title($page_for_posts)
-                        : $post_type_object->labels->name
-                    );
-
-                    if (($post_type_link =
-                        \get_post_type_archive_link($post->post_type))
-                    ) {
-                        $this->links[] = $this->makeLink(
-                            $label,
-                            $post_type_link
-                        );
-                    }
-                }
-            }
-        }
-
-        if ($post->post_parent) {
+        if (($post = \get_post())->post_parent) {
             $parent_id = $post->post_parent;
 
             $single_links = [];
@@ -428,6 +367,45 @@ class Breadcrumbs
                 $this->links,
                 \array_reverse($single_links)
             );
+        } elseif (!\is_post_type_hierarchical($post->post_type)) {
+            if ($term = $this->getFirstTerm($post)) {
+                $single_links = [];
+                $term_id = \absint($term->term_id);
+
+                while ($term_id) {
+                    $term = \get_term_by('id', $term_id, $term->taxonomy);
+                    $single_links[] = $this->makeLink(
+                        $term->name,
+                        $this->getTermLink(
+                            \absint($term->term_id),
+                            $term->taxonomy
+                        )
+                    );
+                    $term_id = \absint($term->parent);
+                }
+
+                $this->links = \array_merge(
+                    $this->links,
+                    \array_reverse($single_links)
+                );
+            } elseif ('post' !== $post->post_type
+                || ($page_for_posts = \get_option('page_for_posts'))
+                // NB: 'post' archive is the same as frontpage unless page_for_posts is set
+            ) { // Add post type archive link
+                $post_type_object = \get_post_type_object($post->post_type);
+
+                $label = (
+                    'post' === $post->post_type && $page_for_posts
+                    ? \get_the_title($page_for_posts)
+                    : $post_type_object->labels->name
+                );
+
+                if (($post_type_link =
+                    \get_post_type_archive_link($post->post_type))
+                ) {
+                    $this->links[] = $this->makeLink($label, $post_type_link);
+                }
+            }
         }
 
         $this->links[] = $this->currentLink(
@@ -437,35 +415,39 @@ class Breadcrumbs
     }
 
     /**
+     * Get post's first term
+     */
+    protected function getFirstTerm(WP_Post $post)
+    {
+        $taxonomies = $this->getTaxonomies($post->post_type);
+
+        foreach ($taxonomies as $taxonomy) {
+            $post_terms = \get_the_terms($post, $taxonomy);
+
+            if (!$post_terms || \is_wp_error($post_terms)) {
+                continue;
+            }
+
+            return $post_terms[0];
+        }
+    }
+
+    /**
      * Get all hierarchical taxonomies
      */
     protected function getTaxonomies(string $post_type): array
     {
-        $taxonomies = [];
+        $return = [];
 
         $taxes = \get_object_taxonomies($post_type, 'objects');
 
-        if (!$taxes) {
-            return $taxonomies;
-        }
-
         foreach ($taxes as $tax_slug => $tax_object) {
-            if (!\is_taxonomy_hierarchical($tax_slug)) {
-                continue;
-            }
-
-            $terms = \get_terms($tax_object->name, ['hide_empty' => false]);
-
-            if (!$terms || \is_wp_error($terms)) {
-                continue;
-            }
-
-            foreach ($terms as $term_object) {
-                $taxonomies[$tax_slug][] = \absint($term_object->term_id);
+            if (\is_taxonomy_hierarchical($tax_slug)) {
+                $return[] = $tax_slug;
             }
         }
 
-        return $taxonomies;
+        return $return;
     }
 
     protected function addHomeLink()
