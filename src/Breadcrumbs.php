@@ -1,9 +1,8 @@
 <?php
 declare (strict_types = 1);
 
-namespace GrottoPress\WordPress\Breadcrumbs;
+namespace GrottoPress\WordPress;
 
-use GrottoPress\WordPress\Page\Page;
 use GrottoPress\Getter\GetterTrait;
 use WP_Post;
 

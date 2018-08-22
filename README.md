@@ -14,6 +14,7 @@ Instantiate and use thus:
 
 ```php
 <?php
+declare (strict_types = 1);
 
 use GrottoPress\WordPress\Breadcrumbs\Breadcrumbs;
 use GrottoPress\WordPress\Page\Page;
