@@ -16,8 +16,8 @@ Instantiate and use thus:
 <?php
 declare (strict_types = 1);
 
-use GrottoPress\WordPress\Breadcrumbs\Breadcrumbs;
-use GrottoPress\WordPress\Page\Page;
+use GrottoPress\WordPress\Breadcrumbs;
+use GrottoPress\WordPress\Page;
 
 // Instantiate
 $breadcrumbs = new Breadcrumbs(new Page(), [
