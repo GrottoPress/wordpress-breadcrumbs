@@ -490,7 +490,6 @@ class BreadcrumbsTest extends AbstractTestCase
     public function testTaxonomyArchive(int $page_num)
     {
         $terms = [
-            
             [
                 'term_id' => 5,
                 'name' => 'Beginner',
