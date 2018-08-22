@@ -1,56 +1,56 @@
 {
-    "name": "grottopress/wordpress-breadcrumbs",
-    "description": "Build and display breadcrumbs for WordPress pages",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "GrottoPress.com",
-            "email": "info@grottopress.com",
-            "homepage": "https://www.grottopress.com"
-        },
-        {
-            "name": "N Atta Kusi Adusei",
-            "homepage": "https://twitter.com/akadusei",
-            "role": "Developer"
-        }
-    ],
-    "keywords": [
-        "wordpress",
-        "breadcrumbs"
-    ],
-    "support": {
-        "issues": "https://github.com/GrottoPress/wordpress-breadcrumbs/issues",
-        "wiki": "https://github.com/GrottoPress/wordpress-breadcrumbs/wiki",
-        "source": "https://github.com/GrottoPress/wordpress-breadcrumbs/"
+  "name": "grottopress/wordpress-breadcrumbs",
+  "description": "Build and display breadcrumbs for WordPress pages",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "GrottoPress.com",
+      "email": "info@grottopress.com",
+      "homepage": "https://www.grottopress.com"
     },
-    "require": {
-        "php": ">=7.0",
-        "grottopress/wordpress-page": "^0.5",
-        "grottopress/getter": "^0.3"
-    },
-    "require-dev": {
-        "codeception/codeception": "^2.4",
-        "lucatume/function-mocker": "^1.3"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "chmod +x ./bin/*"
-        ],
-        "test": [
-            "./vendor/bin/codecept run unit"
-        ],
-        "release": [
-            "./bin/release"
-        ]
-    },
-    "autoload": {
-        "psr-4": {
-            "GrottoPress\\WordPress\\Breadcrumbs\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "GrottoPress\\WordPress\\Breadcrumbs\\": "tests/unit/src/"
-        }
+    {
+      "name": "N Atta Kusi Adusei",
+      "homepage": "https://twitter.com/akadusei",
+      "role": "Developer"
     }
+  ],
+  "keywords": [
+    "wordpress",
+    "breadcrumbs"
+  ],
+  "support": {
+    "issues": "https://github.com/GrottoPress/wordpress-breadcrumbs/issues",
+    "wiki": "https://github.com/GrottoPress/wordpress-breadcrumbs/wiki",
+    "source": "https://github.com/GrottoPress/wordpress-breadcrumbs/"
+  },
+  "require": {
+    "php": ">=7.0",
+    "grottopress/wordpress-page": "^0.6",
+    "grottopress/getter": "^0.3"
+  },
+  "require-dev": {
+    "codeception/codeception": "^2.4",
+    "lucatume/function-mocker": "^1.3"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "chmod +x ./bin/*"
+    ],
+    "test": [
+      "./vendor/bin/codecept run unit"
+    ],
+    "release": [
+      "./bin/release"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "GrottoPress\\WordPress\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "GrottoPress\\WordPress\\": "tests/unit/src/"
+    }
+  }
 }

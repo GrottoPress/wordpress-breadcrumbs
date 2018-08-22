@@ -1,9 +1,8 @@
 <?php
 declare (strict_types = 1);
 
-namespace GrottoPress\WordPress\Breadcrumbs;
+namespace GrottoPress\WordPress;
 
-use GrottoPress\WordPress\Page\Page;
 use GrottoPress\Getter\GetterTrait;
 use WP_Post;
 
@@ -501,17 +500,18 @@ class Breadcrumbs
         unset($vars['page']);
 
         foreach ($vars as $key => $value) {
-            $this->$key = $args[$key] ?? '';
+            $this->$key = $args[$key] ?? null;
         }
     }
 
     private function sanitizeAttributes()
     {
-        $this->home_label = $this->home_label
-            ? \sanitize_text_field($this->home_label)
-            : \esc_html__('Home');
-        $this->delimiter = $this->delimiter
-            ? \esc_attr($this->delimiter) : $this->defaultDelimiter();
+        $this->home_label = $this->home_label ?
+            \sanitize_text_field($this->home_label) :
+            \esc_html__('Home');
+        $this->delimiter = $this->delimiter ?
+            \esc_attr($this->delimiter) :
+            $this->defaultDelimiter();
         $this->after = \sanitize_text_field($this->after);
         $this->before = \sanitize_text_field($this->before);
 

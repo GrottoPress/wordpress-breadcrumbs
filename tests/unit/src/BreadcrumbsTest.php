@@ -1,12 +1,12 @@
 <?php
 declare (strict_types = 1);
 
-namespace GrottoPress\WordPress\Breadcrumbs;
+namespace GrottoPress\WordPress;
 
+use GrottoPress\WordPress\Breadcrumbs\AbstractTestCase;
+use DOMDocument;
 use Codeception\Util\Stub;
 use tad\FunctionMocker\FunctionMocker;
-use GrottoPress\WordPress\Page\Page;
-use DOMDocument;
 
 class BreadcrumbsTest extends AbstractTestCase
 {
@@ -490,7 +490,6 @@ class BreadcrumbsTest extends AbstractTestCase
     public function testTaxonomyArchive(int $page_num)
     {
         $terms = [
-            
             [
                 'term_id' => 5,
                 'name' => 'Beginner',
