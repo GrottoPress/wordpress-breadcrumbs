@@ -285,7 +285,7 @@ class Breadcrumbs
     protected function add_404_links()
     {
         $this->links[] = $this->currentLink(
-            \esc_html__('Error 404')
+            \esc_html__('Error 404', 'grotto-wp-breadcrumbs')
         );
     }
 
@@ -457,7 +457,7 @@ class Breadcrumbs
     protected function addPageNumberLink()
     {
         $this->links[] = $this->makeLink(\sprintf(
-            \esc_html__('Page %d'),
+            \esc_html__('Page %d', 'grotto-wp-breadcrumbs'),
             $this->page->number()
         ));
     }
@@ -508,7 +508,7 @@ class Breadcrumbs
     {
         $this->home_label = $this->home_label ?
             \sanitize_text_field($this->home_label) :
-            \esc_html__('Home');
+            \esc_html__('Home', 'grotto-wp-breadcrumbs');
         $this->delimiter = $this->delimiter ?
             \esc_attr($this->delimiter) :
             $this->defaultDelimiter();

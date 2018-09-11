@@ -1,0 +1,46 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WordPress Breadcrumbs\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-11 19:37+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: lib/Breadcrumbs.php:288
+msgid "Error 404"
+msgstr ""
+
+#: lib/Breadcrumbs.php:460
+msgid "Page %d"
+msgstr ""
+
+#: lib/Breadcrumbs.php:511
+msgid "Home"
+msgstr ""
+
+#. Name
+msgid "WordPress Breadcrumbs"
+msgstr ""
+
+#. Description
+msgid "Build and display breadcrumbs for WordPress pages"
+msgstr ""
+
+#. URI
+msgid "https://github.com/grottopress/wordpress-breadcrumbs/"
+msgstr ""
+
+#. Author
+msgid "GrottoPress"
+msgstr ""
+
+#. Author URI
+msgid "https://www.grottopress.com"
+msgstr ""
