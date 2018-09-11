@@ -13,7 +13,7 @@ class Breadcrumbs
     /**
      * @var string
      */
-    protected $home_label;
+    protected $homeLabel;
 
     /**
      * @var string
@@ -154,7 +154,7 @@ class Breadcrumbs
      */
     protected function add_front_page_links()
     {
-        $this->links[] = $this->currentLink($this->home_label, \home_url('/'));
+        $this->links[] = $this->currentLink($this->homeLabel, \home_url('/'));
     }
 
     /**
@@ -451,7 +451,7 @@ class Breadcrumbs
 
     protected function addHomeLink()
     {
-        $this->links[] = $this->makeLink($this->home_label, \home_url('/'));
+        $this->links[] = $this->makeLink($this->homeLabel, \home_url('/'));
     }
 
     protected function addPageNumberLink()
@@ -506,8 +506,8 @@ class Breadcrumbs
 
     private function sanitizeAttributes()
     {
-        $this->home_label = $this->home_label ?
-            \sanitize_text_field($this->home_label) :
+        $this->homeLabel = $this->homeLabel ?
+            \sanitize_text_field($this->homeLabel) :
             \esc_html__('Home', 'grotto-wp-breadcrumbs');
         $this->delimiter = $this->delimiter ?
             \esc_attr($this->delimiter) :
