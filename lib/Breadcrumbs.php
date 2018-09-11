@@ -138,12 +138,12 @@ class Breadcrumbs
         }
 
         /**
-         * @filter grotto_breadcrumbs_links
+         * @filter grotto_wp_breadcrumbs_links
          *
          * @var array $this->links Breadcrub links for current page.
          */
         $this->links = (array)\apply_filters(
-            'grotto_breadcrumbs_links',
+            'grotto_wp_breadcrumbs_links',
             $this->links,
             $this_page
         );

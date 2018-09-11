@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Change `src/` directory name to `lib/`
+- Change `grotto_breadcrumbs_links` filter hook to `grotto_wp_breadcrumbs_links`
 
 ## 0.5.1 - 2018-08-22
 
