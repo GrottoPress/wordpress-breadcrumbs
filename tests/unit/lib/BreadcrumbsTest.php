@@ -939,7 +939,7 @@ class BreadcrumbsTest extends AbstractTestCase
         return new Breadcrumbs($page, [
             'before' => 'Path: /',
             'after' => '/',
-            'home_label' => 'Front',
+            'homeLabel' => 'Front',
         ]);
     }
 

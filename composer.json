@@ -45,12 +45,12 @@
   },
   "autoload": {
     "psr-4": {
-      "GrottoPress\\WordPress\\": "src/"
+      "GrottoPress\\WordPress\\": "lib/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "GrottoPress\\WordPress\\": "tests/unit/src/"
+      "GrottoPress\\WordPress\\": "tests/unit/lib/"
     }
   }
 }

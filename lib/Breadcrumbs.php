@@ -13,7 +13,7 @@ class Breadcrumbs
     /**
      * @var string
      */
-    protected $home_label;
+    protected $homeLabel;
 
     /**
      * @var string
@@ -138,12 +138,12 @@ class Breadcrumbs
         }
 
         /**
-         * @filter grotto_breadcrumbs_links
+         * @filter grotto_wp_breadcrumbs_links
          *
          * @var array $this->links Breadcrub links for current page.
          */
         $this->links = (array)\apply_filters(
-            'grotto_breadcrumbs_links',
+            'grotto_wp_breadcrumbs_links',
             $this->links,
             $this_page
         );
@@ -154,7 +154,7 @@ class Breadcrumbs
      */
     protected function add_front_page_links()
     {
-        $this->links[] = $this->currentLink($this->home_label, \home_url('/'));
+        $this->links[] = $this->currentLink($this->homeLabel, \home_url('/'));
     }
 
     /**
@@ -285,7 +285,7 @@ class Breadcrumbs
     protected function add_404_links()
     {
         $this->links[] = $this->currentLink(
-            \esc_html__('Error 404')
+            \esc_html__('Error 404', 'grotto-wp-breadcrumbs')
         );
     }
 
@@ -451,13 +451,13 @@ class Breadcrumbs
 
     protected function addHomeLink()
     {
-        $this->links[] = $this->makeLink($this->home_label, \home_url('/'));
+        $this->links[] = $this->makeLink($this->homeLabel, \home_url('/'));
     }
 
     protected function addPageNumberLink()
     {
         $this->links[] = $this->makeLink(\sprintf(
-            \esc_html__('Page %d'),
+            \esc_html__('Page %d', 'grotto-wp-breadcrumbs'),
             $this->page->number()
         ));
     }
@@ -506,9 +506,9 @@ class Breadcrumbs
 
     private function sanitizeAttributes()
     {
-        $this->home_label = $this->home_label ?
-            \sanitize_text_field($this->home_label) :
-            \esc_html__('Home');
+        $this->homeLabel = $this->homeLabel ?
+            \sanitize_text_field($this->homeLabel) :
+            \esc_html__('Home', 'grotto-wp-breadcrumbs');
         $this->delimiter = $this->delimiter ?
             \esc_attr($this->delimiter) :
             $this->defaultDelimiter();
