@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "483bf84e2591798fa08bf4a55324bb2f",
+    "content-hash": "519dc8df89695e9dedfc547c52c5ada7",
     "packages": [
         {
             "name": "grottopress/getter",
@@ -57,16 +57,16 @@
         },
         {
             "name": "grottopress/wordpress-page",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrottoPress/wordpress-page.git",
-                "reference": "b6dacdd184e657a073ed443cffcdba00e4b6ef0e"
+                "reference": "1c0a7efaa3b25e3f5ae4902d7262726d0d7f4eef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrottoPress/wordpress-page/zipball/b6dacdd184e657a073ed443cffcdba00e4b6ef0e",
-                "reference": "b6dacdd184e657a073ed443cffcdba00e4b6ef0e",
+                "url": "https://api.github.com/repos/GrottoPress/wordpress-page/zipball/1c0a7efaa3b25e3f5ae4902d7262726d0d7f4eef",
+                "reference": "1c0a7efaa3b25e3f5ae4902d7262726d0d7f4eef",
                 "shasum": ""
             },
             "require": {
@@ -79,7 +79,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "GrottoPress\\WordPress\\": "src/"
+                    "GrottoPress\\WordPress\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -102,7 +102,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2018-08-21T21:19:46+00:00"
+            "time": "2018-09-12T13:52:38+00:00"
         }
     ],
     "packages-dev": [
