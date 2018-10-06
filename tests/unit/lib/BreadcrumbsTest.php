@@ -178,26 +178,26 @@ class BreadcrumbsTest extends AbstractTestCase
     public function testCategoryArchive(int $page_num)
     {
         $cats = [
-            [
-                'term_id' => 3,
-                'name' => 'Politics',
-                'parent' => 5,
-            ],
-            [
-                'term_id' => 5,
-                'name' => 'News',
-                'parent' => 0,
-            ],
+            new class {
+                public $term_id = 3;
+                public $name = 'Politics';
+                public $parent = 5;
+            },
+            new class {
+                public $term_id = 5;
+                public $name = 'News';
+                public $parent = 0;
+            },
         ];
 
-        FunctionMocker::replace('get_query_var', $cats[0]['term_id']);
+        FunctionMocker::replace('get_query_var', $cats[0]->term_id);
 
         FunctionMocker::replace(
             'get_category',
             function (int $id) use ($cats) {
                 foreach ($cats as $cat) {
-                    if ($id === $cat['term_id']) {
-                        return \json_decode(\json_encode($cat));
+                    if ($id === $cat->term_id) {
+                        return $cat;
                     }
                 }
 
@@ -490,20 +490,20 @@ class BreadcrumbsTest extends AbstractTestCase
     public function testTaxonomyArchive(int $page_num)
     {
         $terms = [
-            [
-                'term_id' => 5,
-                'name' => 'Beginner',
-                'slug' => 'beginner',
-                'parent' => 3,
-                'taxonomy' => 'level',
-            ],
-            [
-                'term_id' => 3,
-                'name' => 'Basic',
-                'slug' => 'basic',
-                'parent' => 0,
-                'taxonomy' => 'level',
-            ],
+            new class {
+                public $term_id = 5;
+                public $name = 'Beginner';
+                public $slug = 'beginner';
+                public $parent = 3;
+                public $taxonomy = 'level';
+            },
+            new class {
+                public $term_id = 3;
+                public $name = 'Basic';
+                public $slug = 'basic';
+                public $parent = 0;
+                public $taxonomy = 'level';
+            },
         ];
 
         FunctionMocker::replace(
@@ -513,7 +513,7 @@ class BreadcrumbsTest extends AbstractTestCase
                     return 'level';
                 }
 
-                return $terms[0]['slug'];
+                return $terms[0]->slug;
             }
         );
 
@@ -521,12 +521,12 @@ class BreadcrumbsTest extends AbstractTestCase
             'get_term_by',
             function (string $by, $_term, string $tax) use ($terms) {
                 foreach ($terms as $term) {
-                    if (('slug' === $by) && ($_term === $term['slug'])) {
-                        return \json_decode(\json_encode($term));
+                    if (('slug' === $by) && ($_term === $term->slug)) {
+                        return $term;
                     }
 
-                    if (('id' === $by) && ($_term === $term['term_id'])) {
-                        return \json_decode(\json_encode($term));
+                    if (('id' === $by) && ($_term === $term->term_id)) {
+                        return $term;
                     }
                 }
 
@@ -571,28 +571,28 @@ class BreadcrumbsTest extends AbstractTestCase
     public function testSinglePostTypeWithParent(int $page_num)
     {
         $posts = [
-            [
-                'ID' => 4,
-                'post_type' => 'page',
-                'post_parent' => 0,
-            ],
-            [
-                'ID' => 5,
-                'post_type' => 'page',
-                'post_parent' => 4,
-            ],
+            new class {
+                public $ID = 4;
+                public $post_type = 'page';
+                public $post_parent = 0;
+            },
+            new class {
+                public $ID = 5;
+                public $post_type = 'page';
+                public $post_parent = 4;
+            },
         ];
 
         FunctionMocker::replace(
             'get_post',
             function (int $id = 0) use ($posts) {
                 foreach ($posts as $post) {
-                    if ($id === $post['ID']) {
-                        return \json_decode(\json_encode($post));
+                    if ($id === $post->ID) {
+                        return $post;
                     }
                 }
 
-                return \json_decode(\json_encode($posts[1]));
+                return $posts[1];
             }
         );
 
@@ -669,7 +669,7 @@ class BreadcrumbsTest extends AbstractTestCase
 
         FunctionMocker::replace(
             'get_object_taxonomies',
-            \json_decode(\json_encode($taxonomies))
+            $taxonomies
         );
 
         FunctionMocker::replace(
@@ -782,22 +782,27 @@ class BreadcrumbsTest extends AbstractTestCase
         $posts = [$post_1];
 
         $taxonomies = [
-            'category' => [
-                'name' => 'category',
-                'hierarchical' => true,
-            ],
-            'post_tag' => [
-                'name' => 'post_tag',
-                'hierarchical' => false,
-            ],
+            'category' => new class {
+                public $name = 'category';
+                public $hierarchical = true;
+            },
+            'post_tag' => new class {
+                public $name = 'post_tag';
+                public $hierarchical = false;
+            },
         ];
 
         $post_types = [
-            'post' => [
-                'labels' => [
-                    'name' => 'Post',
-                ],
-            ],
+            'post' => new class {
+                public $labels;
+
+                public function __construct()
+                {
+                    $this->labels = new class {
+                        public $name = 'Post';
+                    };
+                }
+            },
         ];
 
         FunctionMocker::replace('is_post_type_hierarchical', false);
@@ -805,14 +810,11 @@ class BreadcrumbsTest extends AbstractTestCase
         FunctionMocker::replace(
             'is_taxonomy_hierarchical',
             function (string $tax) use ($taxonomies): bool {
-                return $taxonomies[$tax]['hierarchical'];
+                return $taxonomies[$tax]->hierarchical;
             }
         );
 
-        FunctionMocker::replace(
-            'get_object_taxonomies',
-            \json_decode(\json_encode($taxonomies))
-        );
+        FunctionMocker::replace('get_object_taxonomies', $taxonomies);
 
         FunctionMocker::replace(
             'get_post',
@@ -874,7 +876,7 @@ class BreadcrumbsTest extends AbstractTestCase
         FunctionMocker::replace(
             'get_post_type_object',
             function (string $type) use ($post_types) {
-                return \json_decode(\json_encode($post_types[$type]));
+                return $post_types[$type];
             }
         );
 
