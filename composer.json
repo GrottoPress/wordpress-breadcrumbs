@@ -25,7 +25,7 @@
   },
   "require": {
     "php": ">=7.0",
-    "grottopress/wordpress-page": "^0.7",
+    "grottopress/wordpress-page": "^0.8",
     "grottopress/getter": "^0.3"
   },
   "require-dev": {
