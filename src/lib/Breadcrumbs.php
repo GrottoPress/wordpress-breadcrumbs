@@ -57,7 +57,7 @@ class Breadcrumbs
 
     public function render(): string
     {
-        $trail = '<nav class="breadcrumbs" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">';
+        $trail = '<nav class="breadcrumbs">';
 
         if (\is_rtl()) {
             $trail .= $this->renderRTL();
@@ -478,10 +478,10 @@ class Breadcrumbs
         $link = '';
 
         if ($url) {
-            $link .= '<a href="'.\esc_url($url).'" itemprop="url">';
+            $link .= '<a href="'.\esc_url($url).'">';
         }
 
-        $link .= '<span itemprop="itemListElement">'.\sanitize_text_field($title).'</span>';
+        $link .= '<span class="item">'.\sanitize_text_field($title).'</span>';
 
         if ($url) {
             $link .= '</a>';

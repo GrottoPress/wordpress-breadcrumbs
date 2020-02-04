@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Add support for PH 7.4
 
+### Removed
+- Remove support for microdata
+
 ## 0.7.3 - 2019-04-17
 
 ### Added
