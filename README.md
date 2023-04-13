@@ -2,7 +2,7 @@
 
 Build and display breadcrumbs for WordPress pages
 
-## Usage
+## Installation
 
 Install via composer:
 
@@ -10,7 +10,7 @@ Install via composer:
 composer require grottopress/wordpress-breadcrumbs
 ```
 
-Instantiate and use thus:
+## Usage
 
 ```php
 <?php
@@ -29,3 +29,17 @@ $breadcrumbs = new Breadcrumbs(new Page(), [
 // Render
 $breadcrumbs->render();
 ```
+
+## Development
+
+Run tests with `composer run test`.
+
+## Contributing
+
+1. [Fork it](https://github.com/GrottoPress/wordpress-breadcrumbs/fork)
+1. Switch to the `master` branch: `git checkout master`
+1. Create your feature branch: `git checkout -b my-new-feature`
+1. Make your changes, updating changelog and documentation as appropriate.
+1. Commit your changes: `git commit`
+1. Push to the branch: `git push origin my-new-feature`
+1. Submit a new *Pull Request* against the `GrottoPress:master` branch.
