@@ -26,7 +26,7 @@
   "require": {
     "php": ">=7.0",
     "grottopress/wordpress-page": "^0.8",
-    "grottopress/getter": "^0.3"
+    "grottopress/getter": "^0.4"
   },
   "require-dev": {
     "codeception/codeception": "^4.1",
