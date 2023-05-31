@@ -82,7 +82,9 @@ class Breadcrumbs
         }
 
         $trail .= \join(
-            ' <span class="sep delimiter">'.$this->delimiter.'</span> ',
+            ' <span class="sep delimiter" aria-hidden="true">'.
+                $this->delimiter.
+            '</span> ',
             \array_reverse($this->links)
         );
 
@@ -105,7 +107,9 @@ class Breadcrumbs
         }
 
         $trail .= \join(
-            ' <span class="sep delimiter">'.$this->delimiter.'</span> ',
+            ' <span class="sep delimiter" aria-hidden="true">'.
+                $this->delimiter.
+            '</span> ',
             $this->links
         );
 
