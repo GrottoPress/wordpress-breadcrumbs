@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Upgrade `grottopress/getter` package to v1.0
+- Upgrade `grottopress/wordpress-page` package to v1.0
 
 ## [0.8.1] - 2023-04-13
 
