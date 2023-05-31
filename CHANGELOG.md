@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - I18n: Hide breadcrumbs delimiter from assistive technologies
 
+### Changed
+- Upgrade `grottopress/getter` package to v1.0
+
 ## [0.8.1] - 2023-04-13
 
 ### Added
